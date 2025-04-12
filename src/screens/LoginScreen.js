@@ -18,7 +18,7 @@ export default function LoginScreen({ navigation }) {
                     onChangeText={()=> {}}
                 />
 
-                <TouchableOpacity style={styles.btnSubmit}>
+                <TouchableOpacity style={styles.btnSubmit} onPress={() => navigation.navigate('NovaReceita')}>
                     <Text style={styles.submitText}>LOGIN</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnRegister} onPress={() => navigation.navigate('Cadastro')}>
