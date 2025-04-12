@@ -112,3 +112,11 @@ cd android
 cd ..
 npx react-native run-android
 ```
+3. Se ainda não for, tentar instalar os pacotes:
+```
+npm install @react-navigation/native
+npm install react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated @react-native-masked-view/masked-view
+npm install @react-navigation/stack
+npm install react-native-gesture-handler
+npm install @react-native-picker/picker
+```
