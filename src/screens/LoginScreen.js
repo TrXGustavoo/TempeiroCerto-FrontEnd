@@ -4,11 +4,8 @@ import { View, KeyboardAvoidingView, TextInput, TouchableOpacity, Text, StyleShe
 export default function LoginScreen({ navigation }) {
     return (
         <KeyboardAvoidingView style={styles.background}>
-            <View style={styles.containerLogo}>
-                <Text style={styles.titleText}>Login</Text>
-            </View>
-
             <View style={styles.container}>
+                <Text style={styles.title}>Login</Text>
                 <TextInput style={styles.input}
                     placeholder="Email"
                     autoCorrect={false}
@@ -22,7 +19,7 @@ export default function LoginScreen({ navigation }) {
                 />
 
                 <TouchableOpacity style={styles.btnSubmit}>
-                    <Text style={styles.submitText}>Acessar</Text>
+                    <Text style={styles.submitText}>LOGIN</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnRegister} onPress={() => navigation.navigate('Cadastro')}>
                     <Text style={styles.registerText}>Don't have an account? Sign Up</Text>
@@ -38,22 +35,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#FFF',
+        padding: 20
     },
-    containerLogo:{
-        flex:1,
-        justifyContent: 'center',
-    },
-    titleText:{
+    title:{
         fontSize: 30,
         color: 'rgb(0, 0, 0)',
-        marginTop: 200 
+        //marginTop: 200,
+        marginBottom: 30
     },
     container:{
         flex:1,
         alignItems: 'center',
         justifyContent: 'center',
         width: '90%',
-        paddingBottom: 50
+        paddingBottom: 100,
     },
     input:{
         backgroundColor: '#FFF',
