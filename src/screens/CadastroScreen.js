@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-export default function CadastroScreen() {
+export default function CadastroScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create an account</Text>

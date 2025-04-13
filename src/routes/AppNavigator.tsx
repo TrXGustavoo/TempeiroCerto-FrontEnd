@@ -11,9 +11,9 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Cadastro" component={CadastroScreen} />
-        <Stack.Screen name="NovaReceita" component={NovaReceita} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="NovaReceita" component={NovaReceita} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
