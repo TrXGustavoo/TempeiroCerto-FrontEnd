@@ -95,3 +95,28 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+# Commands
+Caso de erros ao rodar o projeto com o `npx react-native run-android`.
+
+1. Verificar a instalação das dependências. No caminho do projeto:
+```
+npm install
+```
+2. Limpar o cache
+```
+npm start -- --reset-cache
+
+cd android
+./gradlew clean
+cd ..
+npx react-native run-android
+```
+3. Se ainda não for, tentar instalar os pacotes:
+```
+npm install @react-navigation/native
+npm install react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated @react-native-masked-view/masked-view
+npm install @react-navigation/stack
+npm install react-native-gesture-handler
+npm install @react-native-picker/picker
+```
