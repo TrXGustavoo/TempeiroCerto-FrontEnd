@@ -18,7 +18,7 @@ export default function LoginScreen({ navigation }) {
                     onChangeText={()=> {}}
                 />
 
-                <TouchableOpacity style={styles.btnSubmit} onPress={() => navigation.navigate('NovaReceita')}>
+                <TouchableOpacity style={styles.btnSubmit} onPress={() => navigation.navigate('Home')}>
                     <Text style={styles.submitText}>LOGIN</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnRegister} onPress={() => navigation.navigate('Cadastro')}>
@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         color: '#F29F05',
         fontSize: 17,
-        borderRadius: 7,
         padding: 10,
     },
     btnSubmit:{
