@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { View, KeyboardAvoidingView, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const NovaReceita = () => {
+const NovaReceita = ({ navigation }) => {
     const [name, setName] = useState('');
     const [preparationTime, setPreparationTime] = useState('');
     const [portions, setPortions] = useState(0);
