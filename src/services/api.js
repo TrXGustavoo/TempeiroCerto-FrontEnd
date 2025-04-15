@@ -1,10 +1,11 @@
 import axios from 'axios';
+//import { getToken } from '../storage';
+
+
 
 // Crie uma instância do axios com configurações padrão
 const api = axios.create({
-  // Substitua pela URL base da sua API
   baseURL: 'http://192.168.15.9:8080',
-  // Timeout em milissegundos
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -12,20 +13,16 @@ const api = axios.create({
   }
 });
 
-// Interceptor para requisições
-api.interceptors.request.use(
-  config => {
-    // Você pode adicionar um token de autenticação aqui
-    // const token = await AsyncStorage.getItem('@app:token');
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  }
-);
+//api.interceptors.request.use(
+//  async (config) => {
+//    const token = getToken();
+//    if (token) {
+//      config.headers.Authorization = `Bearer ${token}`;
+//    }
+//    return config;
+//  },
+//  (error) => Promise.reject(error)
+//);
 
 // Interceptor para respostas
 api.interceptors.response.use(
