@@ -4,11 +4,11 @@ import { MMKV } from 'react-native-mmkv';
 const storage = new MMKV();
 
 // Funções utilitárias
-export const setToken = (token: string) => {
+export const setToken = (token) => {
   storage.set('token', token);
 };
 
-export const getToken = (): string | null => {
+export const getToken = () => {
   return storage.getString('token') || null
 }
 

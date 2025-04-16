@@ -12,13 +12,18 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'react-native-image-picker';
 import api from '../services/api';
 
 
 
+
 const NovaReceita = () => {
+  const route = useRoute();
+  const { token, userId } = route.params;
+  console.log('Token2:', token);
+
   const navigation = useNavigation();
   const [recipeImage, setRecipeImage] = useState(null);
   const [recipeName, setRecipeName] = useState('');
@@ -29,12 +34,7 @@ const NovaReceita = () => {
   const [description, setDescription] = useState('');
 
   const handleImagePicker = () => {
-    const options = {
-      mediaType: 'photo',
-      includeBase64: false,
-      maxHeight: 2000,
-      maxWidth: 2000,
-    };
+
 
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
@@ -49,32 +49,52 @@ const NovaReceita = () => {
   };
 
   const handleNewRecipe = async () => {
+    // const route = useRoute();
+    // const { token, userId } = route.params;
+    // console.log('Token:', token);
+
+    // useEffect(() => {
+    //   console.log('Token:', token);
+    //   console.log('UserID:', userId);
+    // }, []);
+
 
     try {
-        const response =  api.post(
-            "/recipe/",
-            {
-                recipeImage,
-                recipeName,
-                prepTime,
-                portions,
-                level,
-                ingredients,
-                description
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }
-        );
 
-        console.log(response.data); // token, message, etc.
+      // const options = {
+      //   mediaType: 'photo',
+      //   includeBase64: false,
+      //   maxHeight: 2000,
+      //   maxWidth: 2000,
+      // };
 
-        navigation.navigate("Home");
+      console.log('antes:');
+      const response = api.post(
+        "/recipe/create",
+        {
+          recipeImage,
+          recipeName,
+          prepTime,
+          portions,
+          level,
+          ingredients,
+          description
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      );
+      console.log('recipiename:', recipeName);
+      console.log('response:', response);
+
+      console.log(response.data); // token, message, etc.
+
+      navigation.navigate("Home", { token, userId });
 
     } catch (error) {
-        console.error("Erro ao criar receita", error);
+      console.error("Erro ao criar receita", error);
 
     }
   };

@@ -15,8 +15,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
-import { setToken } from '../storage'
+import { setToken } from "../storage";
 import api from '../services/api';
+
 
 
 export default function LoginScreen({ navigation }) {
@@ -40,14 +41,16 @@ export default function LoginScreen({ navigation }) {
 
       const { token, message, userId } = response.data;
 
-      if (token) {
-        setToken(token);
-        setUserId(userId);
-        console.log('Token salvo com sucesso!', token)
-        navigation.navigate("Home");
-      }
+      // if (token) {
+      //   setToken(token);
+        
+      //   // setUserId(userId);
+      //   console.log('Token salvo com sucesso!', token)
+      //   navigation.navigate("Home");
+      // }
 
-
+      navigation.navigate('Home', { token, userId });
+      
     } catch (error) {
       console.error("Erro no login", error);
     }
