@@ -1,10 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import { FontAwesome } from 'react-native-vector-icons';
+import api from '../services/api'; 
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
+  const route = useRoute();
+  const { token, userId } = route.params;
+
+
+  const [receitas, setReceitas] = useState([]);
+
+  useEffect(() => {
+    const fetchReceitas = async () => {
+      try {
+        const response = await api.get('/recipe/list');
+        setReceitas(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar receitas:', error);
+      }
+    };
+
+    fetchReceitas();
+  }, []);
+  
   return (
+    
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {/* Header */}
@@ -43,7 +65,7 @@ export default function HomeScreen() {
         </View>
 
         {/* Receitas */}
-        <RecipeCard
+        {/* <RecipeCard
           title="Molho branco simples"
           category="Massas"
           image="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb"
@@ -55,11 +77,24 @@ export default function HomeScreen() {
           image="https://images.unsplash.com/photo-1551024601-bec78aea704b"
           rating={4.0}
         />
+      </ScrollView> */}
+      {/* Receitas dinâmicas */}
+
+      {receitas.map((receita, index) => (
+          <RecipeCard
+            key={index}
+            title={receita.recipeName}
+            category={receita.categorias?.[0] || 'Outros'}
+            image={receita.image || 'https://via.placeholder.com/150'} // Adicione um campo de imagem real se houver
+            rating={4.0} // Substitua por um campo real se aplicável
+          />
+        ))}
       </ScrollView>
 
       {/* Floating Action Button */}
-      <TouchableOpacity style={styles.fab}>
+      <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('NovaReceita', { token, userId })}>
         <Icon name="plus" size={24} color="#fff" />
+        
       </TouchableOpacity>
 
       {/* Bottom Navigation */}
@@ -70,7 +105,7 @@ export default function HomeScreen() {
         <TouchableOpacity style={styles.navItem}>
           <Icon name="bookmark" size={24} color="#ccc" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('Profile', { token, userId })}>
           <Icon name="user" size={24} color="#ccc" />
         </TouchableOpacity>
       </View>

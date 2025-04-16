@@ -15,7 +15,10 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
+import { setToken } from "../storage";
 import api from '../services/api';
+
+
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState('');
@@ -23,19 +26,33 @@ export default function LoginScreen({ navigation }) {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  console.log('Tentando login para:', api.defaults.baseURL);
+
   const handleLogin = async () => {
+
     try {
-      const response = await api.post("/auth/login", {
+
+      const response = await api.post("auth/login", {
         username,
         password
       });
 
-      console.log(response.data); // token, message, etc.
+      console.log(response.data);
 
-      navigation.navigate("Home");
+      const { token, message, userId } = response.data;
 
+      // if (token) {
+      //   setToken(token);
+        
+      //   // setUserId(userId);
+      //   console.log('Token salvo com sucesso!', token)
+      //   navigation.navigate("Home");
+      // }
+
+      navigation.navigate('Home', { token, userId });
+      
     } catch (error) {
-      console.error("Erro no login");
+      console.error("Erro no login", error);
     }
   }
 
@@ -102,6 +119,10 @@ export default function LoginScreen({ navigation }) {
 
               <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
                 <Text style={styles.loginButtonText}>LOGIN</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Home')}>
+                <Text style={styles.loginButtonText}>SKIP</Text>
               </TouchableOpacity>
 
               <View style={styles.signUpContainer}>
