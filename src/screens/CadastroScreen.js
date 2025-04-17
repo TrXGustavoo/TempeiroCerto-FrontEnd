@@ -29,19 +29,21 @@ const CadastroScreen = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     try {
-        const response =  api.post("/auth/register", {
+        const response =  await api.post("/auth/register", {
             username,
             password
         });
 
-        console.log(response.data); // token, message, etc.
+        console.log(response.data); 
 
-        navigation.navigate("Home");
+        const { token, message, userId } = response.data;
+
+        navigation.navigate('Home', { token, userId });
 
     } catch (error) {
-        console.error("Erro no login");
+        console.error("Erro no cadastro", error);
 
     }
   };

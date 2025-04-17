@@ -13,8 +13,10 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import * as ImagePicker from 'react-native-image-picker';
+// import * as ImagePicker from 'react-native-image-picker';
 import api from '../services/api';
+import { Picker } from '@react-native-picker/picker';
+
 
 
 
@@ -22,7 +24,7 @@ import api from '../services/api';
 const NovaReceita = () => {
   const route = useRoute();
   const { token, userId } = route.params;
-  console.log('Token2:', token);
+
 
   const navigation = useNavigation();
   const [recipeImage, setRecipeImage] = useState(null);
@@ -32,43 +34,33 @@ const NovaReceita = () => {
   const [level, setLevel] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [description, setDescription] = useState('');
+  const [categorias, setCategorias] = useState('');
 
-  const handleImagePicker = () => {
+  // const handleImagePicker = () => {
 
+  //   const options = {
+  //     mediaType: 'photo',
+  //     includeBase64: true,
+  //   };
 
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('Image picker error: ', response.error);
-      } else {
-        let imageUri = response.uri || response.assets?.[0]?.uri;
-        setRecipeImage(imageUri);
-      }
-    });
-  };
+  //   ImagePicker.launchImageLibrary(options, (response) => {
+  //     if (response.didCancel) {
+  //       console.log('User cancelled image picker');
+  //     } else if (response.error) {
+  //       console.log('Image picker error: ', response.error);
+  //     } else {
+  //       let imageUri = response.uri || response.assets?.[0]?.uri;
+  //       const imageBase64 = response.assets?.[0]?.base64;
+  //       setRecipeImage(`data:image/jpeg;base64,${imageBase64}`);
+
+  //     }
+  //   });
+  // };
 
   const handleNewRecipe = async () => {
-    // const route = useRoute();
-    // const { token, userId } = route.params;
-    // console.log('Token:', token);
-
-    // useEffect(() => {
-    //   console.log('Token:', token);
-    //   console.log('UserID:', userId);
-    // }, []);
-
 
     try {
 
-      // const options = {
-      //   mediaType: 'photo',
-      //   includeBase64: false,
-      //   maxHeight: 2000,
-      //   maxWidth: 2000,
-      // };
-
-      console.log('antes:');
       const response = api.post(
         "/recipe/create",
         {
@@ -77,6 +69,7 @@ const NovaReceita = () => {
           prepTime,
           portions,
           level,
+          categorias,
           ingredients,
           description
         },
@@ -89,7 +82,7 @@ const NovaReceita = () => {
       console.log('recipiename:', recipeName);
       console.log('response:', response);
 
-      console.log(response.data); // token, message, etc.
+      console.log(response.data);
 
       navigation.navigate("Home", { token, userId });
 
@@ -110,7 +103,7 @@ const NovaReceita = () => {
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.backButton}>
+          <TouchableOpacity onPress={() => navigation.navigate("Home", { token, userId })} style={styles.backButton}>
             <Icon name="arrow-left" size={28} color="#333" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Nova Receita</Text>
@@ -121,7 +114,7 @@ const NovaReceita = () => {
 
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           {/* Imagem */}
-          <View style={styles.formGroup}>
+          {/* <View style={styles.formGroup}>
             <Text style={styles.label}>Imagem</Text>
             <TouchableOpacity style={styles.imageUpload} onPress={handleImagePicker}>
               {recipeImage ? (
@@ -130,7 +123,7 @@ const NovaReceita = () => {
                 <Text style={styles.uploadText}>Upload da Imagem</Text>
               )}
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           {/* Nome da Receita */}
           <View style={styles.formGroup}>
@@ -171,10 +164,45 @@ const NovaReceita = () => {
 
             <View style={[styles.formGroup, { flex: 2 }]}>
               <Text style={styles.label}>Nível</Text>
-              <TouchableOpacity style={styles.selectInput}>
-                <Text style={styles.selectText}>{level || ''}</Text>
-                <Icon name="chevron-down" size={20} color="#999" />
-              </TouchableOpacity>
+
+              <View style={styles.selectInputWrapper}>
+                <Picker
+                  selectedValue={level}
+                  onValueChange={(itemValue, itemIndex) => setLevel(itemValue)}
+                  style={styles.picker}
+                  mode="dropdown"
+                >
+
+                  <Picker.Item label="Selecione o nível..." value="" enabled={false} style={styles.pickerItemPlaceholder} />
+
+                  <Picker.Item label="Fácil" value="facil" style={styles.pickerItem} />
+                  <Picker.Item label="Médio" value="medio" style={styles.pickerItem} />
+                  <Picker.Item label="Difícil" value="dificil" style={styles.pickerItem} />
+                </Picker>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Categoria</Text>
+
+            <View style={styles.selectInputWrapper}>
+              <Picker
+                selectedValue={categorias}
+                onValueChange={(itemValue, itemIndex) => setCategorias(itemValue)}
+                style={styles.picker}
+                mode="dropdown"
+              >
+                
+                <Picker.Item label="Selecione a categoria..." value="" enabled={false} style={styles.pickerItemPlaceholder} />
+                {/* Opções de Categoria */}
+                <Picker.Item label="Salgados" value="salgados" style={styles.pickerItem} />
+                <Picker.Item label="Massas" value="massas" style={styles.pickerItem} />
+                <Picker.Item label="Sopas" value="sopas" style={styles.pickerItem} />
+                <Picker.Item label="Bebidas" value="bebidas" style={styles.pickerItem} />
+                <Picker.Item label="Doces" value="doces" style={styles.pickerItem} />
+                <Picker.Item label="Carnes" value="carnes" style={styles.pickerItem} />
+              </Picker>
             </View>
           </View>
 

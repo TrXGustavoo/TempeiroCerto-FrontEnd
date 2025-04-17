@@ -41,14 +41,6 @@ export default function LoginScreen({ navigation }) {
 
       const { token, message, userId } = response.data;
 
-      // if (token) {
-      //   setToken(token);
-        
-      //   // setUserId(userId);
-      //   console.log('Token salvo com sucesso!', token)
-      //   navigation.navigate("Home");
-      // }
-
       navigation.navigate('Home', { token, userId });
       
     } catch (error) {
@@ -121,9 +113,6 @@ export default function LoginScreen({ navigation }) {
                 <Text style={styles.loginButtonText}>LOGIN</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Home')}>
-                <Text style={styles.loginButtonText}>SKIP</Text>
-              </TouchableOpacity>
 
               <View style={styles.signUpContainer}>
                 <Text style={styles.noAccountText}>Don't have an account? </Text>
